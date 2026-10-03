@@ -18,6 +18,8 @@ echo "Output: $OUTPUT_DIR"
 echo ""
 
 # Define build targets: (GOOS GOARCH output_name)
+# Note: For Android, use the linux/arm64 build with Termux (Linux environment on Android)
+# Native Android NDK builds (android/arm64) require the Android NDK toolchain.
 TARGETS=(
   "linux amd64 termchat-linux-amd64"
   "linux arm64 termchat-linux-arm64"
@@ -31,13 +33,13 @@ TARGETS=(
 for target in "${TARGETS[@]}"; do
   read -r GOOS GOARCH OUTPUT <<< "$target"
   OUTPUT_PATH="$OUTPUT_DIR/$OUTPUT"
-  
+
   echo "📦 Building $GOOS/$GOARCH client → $OUTPUT"
   GOOS="$GOOS" GOARCH="$GOARCH" go build \
     -ldflags "-s -w -X main.Version=$VERSION -X main.BuildTime=$BUILD_TIME" \
     -o "$OUTPUT_PATH" \
     ./cmd/client
-  
+
   # Also build the server
   SERVER_OUTPUT="${OUTPUT/termchat/termchat-server}"
   SERVER_OUTPUT_PATH="$OUTPUT_DIR/$SERVER_OUTPUT"
@@ -46,13 +48,13 @@ for target in "${TARGETS[@]}"; do
     -ldflags "-s -w -X main.Version=$VERSION -X main.BuildTime=$BUILD_TIME" \
     -o "$SERVER_OUTPUT_PATH" \
     ./cmd/server
-  
+
   # Make executable on Unix systems
   if [[ "$GOOS" != "windows" ]]; then
     chmod +x "$OUTPUT_PATH"
     chmod +x "$SERVER_OUTPUT_PATH"
   fi
-  
+
   # Show file size
   size=$(du -h "$OUTPUT_PATH" | cut -f1)
   echo "   ✓ Size: $size"

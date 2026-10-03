@@ -3,6 +3,7 @@
 /termchat-client
 /termchat-client-linux
 /dist/
+/build/
 *.exe.log
 *.dll
 *.so

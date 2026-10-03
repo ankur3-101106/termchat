@@ -20,25 +20,26 @@
 
 ### Client Binaries
 
-| Platform | Binary | Size |
-|----------|--------|------|
-| Linux x86_64 | `termchat-linux-amd64` | 7.3 MB |
-| Linux ARM64 | `termchat-linux-arm64` | 6.7 MB |
-| macOS Intel | `termchat-macos-amd64` | 7.4 MB |
-| macOS Apple Silicon | `termchat-macos-arm64` | 6.8 MB |
-| Windows x86_64 | `termchat-windows-amd64.exe` | 7.4 MB |
-| Windows ARM64 | `termchat-windows-arm64.exe` | 6.7 MB |
+| Platform | Binary | Size | Download |
+|----------|--------|------|----------|
+| Linux x86_64 | `termchat-linux-amd64` | 7.3 MB | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-linux-amd64) |
+| Linux ARM64 | `termchat-linux-arm64` | 6.7 MB | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-linux-arm64) |
+| Linux ARM64 (Termux/Android) | `termchat-termux-arm64` | 6.7 MB | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-termux-arm64) |
+| macOS Intel | `termchat-macos-amd64` | 7.4 MB | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-macos-amd64) |
+| macOS Apple Silicon | `termchat-macos-arm64` | 6.8 MB | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-macos-arm64) |
+| Windows x86_64 | `termchat-windows-amd64.exe` | 7.4 MB | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-windows-amd64.exe) |
+| Windows ARM64 | `termchat-windows-arm64.exe` | 6.7 MB | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-windows-arm64.exe) |
 
 ### Relay Server Binaries
 
-| Platform | Binary | Size |
-|----------|--------|------|
-| Linux x86_64 | `termchat-server-linux-amd64` | 6.7 MB |
-| Linux ARM64 | `termchat-server-linux-arm64` | 6.2 MB |
-| macOS Intel | `termchat-server-macos-amd64` | 6.8 MB |
-| macOS Apple Silicon | `termchat-server-macos-arm64` | 6.3 MB |
-| Windows x86_64 | `termchat-server-windows-amd64.exe` | 6.9 MB |
-| Windows ARM64 | `termchat-server-windows-arm64.exe` | 6.2 MB |
+| Platform | Binary | Size | Download |
+|----------|--------|------|----------|
+| Linux x86_64 | `termchat-server-linux-amd64` | 6.7 MB | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-linux-amd64) |
+| Linux ARM64 | `termchat-server-linux-arm64` | 6.2 MB | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-linux-arm64) |
+| macOS Intel | `termchat-server-macos-amd64` | 6.8 MB | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-macos-amd64) |
+| macOS Apple Silicon | `termchat-server-macos-arm64` | 6.3 MB | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-macos-arm64) |
+| Windows x86_64 | `termchat-server-windows-amd64.exe` | 6.9 MB | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-windows-amd64.exe) |
+| Windows ARM64 | `termchat-server-windows-arm64.exe` | 6.2 MB | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-windows-arm64.exe) |
 
 ### Convenience Symlinks
 - `termchat` → `termchat-linux-amd64` (Linux default)
@@ -54,6 +55,10 @@ chmod +x termchat-linux-amd64
 
 # Windows
 termchat-windows-amd64.exe
+
+# Android (Termux)
+chmod +x termchat-termux-arm64
+./termchat-termux-arm64
 
 # Custom relay server
 ./termchat-linux-amd64 -server wss://your-relay.example.com/ws

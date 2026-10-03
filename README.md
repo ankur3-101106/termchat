@@ -16,17 +16,45 @@ Health check: <https://termchat-relay.meetkhamar3501.workers.dev/health>
 
 ## Quick start
 
-### Use the included Linux binary
+### Download pre-built binaries (Recommended)
+
+Download the latest release for your platform from [GitHub Releases](https://github.com/ankur3-101106/termchat/releases/latest):
+
+**Client Binaries:**
+
+| Platform | Binary | Download |
+|----------|--------|----------|
+| Linux x86_64 | `termchat-linux-amd64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-linux-amd64) |
+| Linux ARM64 | `termchat-linux-arm64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-linux-arm64) |
+| Linux ARM64 (Termux/Android) | `termchat-termux-arm64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-termux-arm64) |
+| macOS Intel | `termchat-macos-amd64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-macos-amd64) |
+| macOS Apple Silicon | `termchat-macos-arm64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-macos-arm64) |
+| Windows x86_64 | `termchat-windows-amd64.exe` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-windows-amd64.exe) |
+| Windows ARM64 | `termchat-windows-arm64.exe` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-windows-arm64.exe) |
+
+**Relay Server Binaries:**
+
+| Platform | Binary | Download |
+|----------|--------|----------|
+| Linux x86_64 | `termchat-server-linux-amd64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-linux-amd64) |
+| Linux ARM64 | `termchat-server-linux-arm64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-linux-arm64) |
+| macOS Intel | `termchat-server-macos-amd64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-macos-amd64) |
+| macOS Apple Silicon | `termchat-server-macos-arm64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-macos-arm64) |
+| Windows x86_64 | `termchat-server-windows-amd64.exe` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-windows-amd64.exe) |
+| Windows ARM64 | `termchat-server-windows-arm64.exe` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-windows-arm64.exe) |
 
 ```bash
-chmod +x bin/termchat-linux
-./bin/termchat-linux
+# Linux/macOS/Termux
+chmod +x termchat-linux-amd64
+./termchat-linux-amd64
+
+# Windows
+termchat-windows-amd64.exe
 ```
 
-The client uses the current Cloudflare relay automatically. To select another relay:
-
+The client uses the Cloudflare relay by default. To use a custom relay:
 ```bash
-./bin/termchat-linux -server wss://example.com/ws
+./termchat-linux-amd64 -server wss://your-relay.example.com/ws
 ```
 
 ### Build from source
@@ -34,7 +62,7 @@ The client uses the current Cloudflare relay automatically. To select another re
 Requirements: Go 1.23 or newer.
 
 ```bash
-git clone https://github.com/viveksec/termchat.git
+git clone https://github.com/ankur3-101106/termchat.git
 cd termchat
 go run ./cmd/client
 ```
@@ -47,24 +75,13 @@ go build -o bin/termchat ./cmd/client
 ./bin/termchat
 ```
 
-### Downloaded binaries
-
-The `bin/` directory contains builds for:
-
-| File | Platform |
-| --- | --- |
-| `termchat-linux-amd64` | Linux x86_64 |
-| `termchat-linux-arm64` | Linux ARM64 |
-| `termchat-macos-amd64` | macOS Intel |
-| `termchat-macos-arm64` | macOS Apple Silicon |
-| `termchat-windows-amd64.exe` | Windows x86_64 |
-| `termchat-windows-arm64.exe` | Windows ARM64 |
-
-Run the binary that matches the operating system and architecture. Release builds can be regenerated with:
+### Cross-platform builds
 
 ```bash
 ./build-cross-platform.sh
 ```
+
+This builds client and server binaries for Linux, macOS, Windows (amd64/arm64) and outputs to `bin/`.
 
 ## Using the client
 
@@ -91,15 +108,29 @@ Commands:
 Press `F1` for help and `Ctrl+C` to exit. Use `-log FILE` when troubleshooting connection problems:
 
 ```bash
-./bin/termchat-linux -log /tmp/termchat.log
+./termchat-linux-amd64 -log /tmp/termchat.log
 ```
 
 The server can also be selected with `TERMCHAT_SERVER`:
 
 ```bash
 export TERMCHAT_SERVER=wss://example.com/ws
-./bin/termchat-linux
+./termchat-linux-amd64
 ```
+
+## Android / Termux
+
+TermChat runs on Android via [Termux](https://termux.dev/) (install from F-Droid or GitHub):
+
+```bash
+# In Termux
+pkg install curl
+curl -LO https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-termux-arm64
+chmod +x termchat-termux-arm64
+./termchat-termux-arm64
+```
+
+The `linux/arm64` binary works natively in Termux's Linux environment.
 
 ## Run a local Go relay
 
@@ -123,9 +154,8 @@ The production relay is implemented with a Cloudflare Worker and Durable Object.
 
 ```bash
 cd cloudflare
-npm install
-npx wrangler login
-npx wrangler deploy
+bun install
+bunx wrangler deploy
 ```
 
 Clients connect to the deployed Worker at its `/ws` path using `wss://`.
@@ -153,10 +183,10 @@ cmd/client/       Terminal client and WebSocket connection manager
 cmd/server/       Go WebSocket relay
 cmd/demo/         Protocol and encryption demonstration
 pkg/crypto/       X25519, key derivation, AES-GCM, and safety numbers
-pkg/protocol/    Shared JSON packet types
+pkg/protocol/     Shared JSON packet types
 cloudflare/       Cloudflare Worker relay and Durable Object
-scripts/test-relay/Relay test utility
-bin/              Cross-platform client and relay binaries
+scripts/test-relay/ Relay test utility
+bin/              Cross-platform binaries (git-ignored, built locally)
 ```
 
 ## Security notes
