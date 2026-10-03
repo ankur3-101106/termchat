@@ -16,32 +16,13 @@ Health check: <https://termchat-relay.meetkhamar3501.workers.dev/health>
 
 ## Quick start
 
-### Download pre-built binaries (Recommended)
+### Download pre-built binaries
 
-Download the latest release for your platform from [GitHub Releases](https://github.com/ankur3-101106/termchat/releases/latest):
+Download the latest release for your platform from [GitHub Releases](https://github.com/ankur3-101106/termchat/releases/latest).
 
-**Client Binaries:**
+**Client binaries:** Linux (amd64/arm64), macOS (amd64/arm64), Windows (amd64/arm64), Android/Termux (arm64)
 
-| Platform | Binary | Download |
-|----------|--------|----------|
-| Linux x86_64 | `termchat-linux-amd64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-linux-amd64) |
-| Linux ARM64 | `termchat-linux-arm64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-linux-arm64) |
-| Linux ARM64 (Termux/Android) | `termchat-termux-arm64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-termux-arm64) |
-| macOS Intel | `termchat-macos-amd64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-macos-amd64) |
-| macOS Apple Silicon | `termchat-macos-arm64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-macos-arm64) |
-| Windows x86_64 | `termchat-windows-amd64.exe` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-windows-amd64.exe) |
-| Windows ARM64 | `termchat-windows-arm64.exe` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-windows-arm64.exe) |
-
-**Relay Server Binaries:**
-
-| Platform | Binary | Download |
-|----------|--------|----------|
-| Linux x86_64 | `termchat-server-linux-amd64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-linux-amd64) |
-| Linux ARM64 | `termchat-server-linux-arm64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-linux-arm64) |
-| macOS Intel | `termchat-server-macos-amd64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-macos-amd64) |
-| macOS Apple Silicon | `termchat-server-macos-arm64` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-macos-arm64) |
-| Windows x86_64 | `termchat-server-windows-amd64.exe` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-windows-amd64.exe) |
-| Windows ARM64 | `termchat-server-windows-arm64.exe` | [Download](https://github.com/ankur3-101106/termchat/releases/download/v1.0.1/termchat-server-windows-arm64.exe) |
+**Server binaries:** Linux (amd64/arm64), macOS (amd64/arm64), Windows (amd64/arm64)
 
 ```bash
 # Linux/macOS/Termux
