@@ -34,6 +34,7 @@ export interface Packet {
 export interface ClientAttachment {
   id: string;
   peerID: string;
+  resuming?: boolean; // true when this connection is being replaced by a resume
 }
 
 export function newPacket(
@@ -80,4 +81,16 @@ export function generateUniqueID(existing: Set<string>): string {
     }
   }
   throw new Error("failed to generate unique ID");
+}
+
+export function isValidShortID(id: string): boolean {
+  if (id.length !== SHORT_ID_LENGTH) {
+    return false;
+  }
+  for (const char of id) {
+    if (!SHORT_ID_CHARS.includes(char)) {
+      return false;
+    }
+  }
+  return true;
 }

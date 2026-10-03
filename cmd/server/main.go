@@ -115,6 +115,11 @@ func (s *relayServer) run() {
 				}
 
 				s.broadcastUserList()
+			} else if ok && existing != c {
+				// A newer connection has already replaced this one (session resumption).
+				// Don't process disconnect for the stale connection.
+				log.Printf("[relay] ignoring stale disconnect for client %s (newer connection active)", c.id)
+				s.mu.Unlock()
 			} else {
 				s.mu.Unlock()
 			}

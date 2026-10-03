@@ -21,7 +21,11 @@ import {
   decodePacket,
   encodePacket,
   generateUniqueID,
+  generateShortID,
+  isValidShortID,
   newPacket,
+  SHORT_ID_CHARS,
+  SHORT_ID_LENGTH,
 } from "./protocol";
 
 export interface Env {
@@ -44,11 +48,37 @@ export class RelayServer implements DurableObject {
     const pair = new WebSocketPair();
     const [client, server] = Object.values(pair);
 
-    const existing = this.collectIDs();
-    const id = generateUniqueID(existing);
+    // Accept the client-provided ID from either query param name.
+    const url = new URL(request.url);
+    const requestedID = url.searchParams.get("id") || url.searchParams.get("client_id") || "";
 
-    this.state.acceptWebSocket(server);
-    server.serializeAttachment({ id, peerID: "" } satisfies ClientAttachment);
+    const existing = this.collectIDs();
+    let id: string;
+    let isResume = false;
+
+    if (requestedID && isValidShortID(requestedID)) {
+      id = requestedID;
+      if (existing.has(id)) {
+        isResume = true;
+        // Mark the old connection as resuming so its webSocketClose doesn't notify the peer.
+        // Also preserve the peerID for the new connection.
+        const oldWS = this.findSocket(id);
+        let preservedPeerID = "";
+        if (oldWS) {
+          const oldAtt = oldWS.deserializeAttachment() as ClientAttachment;
+          preservedPeerID = oldAtt.peerID;
+          oldAtt.resuming = true;
+          oldWS.serializeAttachment(oldAtt);
+          oldWS.close(1000, "resumed by new connection");
+        }
+        this.state.acceptWebSocket(server);
+        server.serializeAttachment({ id, peerID: preservedPeerID } satisfies ClientAttachment);
+      }
+    } else {
+      id = generateUniqueID(existing);
+      this.state.acceptWebSocket(server);
+      server.serializeAttachment({ id, peerID: "" } satisfies ClientAttachment);
+    }
 
     const version = this.env.SERVER_VERSION || SERVER_VERSION;
     const hello = newPacket(MsgHello, "", {
@@ -56,6 +86,12 @@ export class RelayServer implements DurableObject {
       server_version: version,
     });
     server.send(encodePacket(hello));
+
+    if (isResume) {
+      console.log(`[relay] session resumed for client ${id}`);
+    } else {
+      console.log(`[relay] new session created for client ${id}`);
+    }
 
     this.broadcastUserList();
 
@@ -118,7 +154,8 @@ export class RelayServer implements DurableObject {
       return;
     }
 
-    if (attachment.peerID) {
+    // Skip peer disconnect notification if this connection is being resumed.
+    if (!attachment.resuming && attachment.peerID) {
       this.notifyPeerDisconnected(attachment.peerID, attachment.id);
     }
 
